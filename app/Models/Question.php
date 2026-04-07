@@ -9,4 +9,14 @@ class Question extends Model
 {
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
     use HasFactory;
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class); //belong is used to define the relationship to other model
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
