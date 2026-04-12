@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
 
         $categories=Category::factory(4)->create();
 
+        //the factory create the data that not have relationship with other tables, but in seeders fill the others columns with relationships, for example category_id and user_id
         $questions=Question::factory(30)->create([ //factory is used to create false data
             'category_id'=> fn() => $categories->random()->id, //fn is used to set random seeding
             'user_id'=>fn()=> User::inRandomOrder()->first()->id //fill user_id with random user id from users table

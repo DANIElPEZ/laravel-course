@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    //in migration we create the table structure
     public function up(): void
     {
         Schema::create('hearts', function (Blueprint $table) {
