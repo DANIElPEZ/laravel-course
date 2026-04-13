@@ -1,6 +1,6 @@
 <x-forum.layouts.app>
     <div class="flex items-center gap-2 w-full my-8">
-        <div>&hearts;</div>
+        <livewire:heart :heartable="$question" />
         <div class="w-full">
             <h2 class="text-2xl font-bold md:text-3xl">
                 {{ $question->title }}
@@ -39,7 +39,7 @@
         @foreach ($question->answers as $answer)
         <li>
             <div class="flex items-start gap-2">
-                <div>&hearts;</div>
+                <livewire:heart :heartable="$answer" />
                 <div>
                     <p class="text-sm text-gray-300">
                         {{ $answer->content }}
@@ -55,5 +55,19 @@
         </li>
         @endforeach
     </ul>
+
+    <div class="mt-8">
+    <h3 class="text-lg font-semibold mb-2">Tu Respuesta...</h3>
+    <form action="{{ route('answers.store', $question) }}" method="POST">
+        @csrf
+        <div class="mb-2">
+            <textarea name="content" rows="6" class="w-full p-2 border rounded-md text-xs" required></textarea>
+            @error('content')<span class="block text-red-500 text-xs">{{ $message }}</span>@enderror
+        </div>
+        <button type="submit" class="rounded-md bg-blue-600 hover:bg-blue-500 px-4 py-2 text-white cursor-pointer">
+            Enviar Respuesta
+        </button>
+    </form>
+</div>
 
 </x-forum.layouts.app>
