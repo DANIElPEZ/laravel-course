@@ -4,13 +4,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasHeart;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
-    use HasFactory;
+    use HasFactory, HasHeart;
 
     public function category()
     {
@@ -32,25 +33,22 @@ class Question extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function hearts()
+    //this function is used to delete in cascade
+    protected static function booted()
     {
-        return $this->morphMany(Heart::class, 'heartable');
-    }
-
-    public function isHearted()
-    {
-        return $this->hearts()->where('user_id', 20)->exists();
-    }
-
-    public function heart()
-    {
-        $this->hearts()->create([
-            'user_id' => 20
-        ]);
-    }
-
-    public function unheart()
-    {
-        $this->hearts()->where('user_id', 20)->delete();
+        static::deleting(function ($question){
+            $question->hearts()->delete();
+            $question->comments()->get()->each(function ($comment){
+                $comment->hearts()->delete();
+                $comment->delete();
+            });
+            $question->answers()->get()->each(function ($answer){
+                $answer->hearts()->delete();
+                $answer->comments()->get()->each(function ($comment){
+                    $comment->hearts()->delete();
+                    $comment->delete();
+                });
+            });
+        });
     }
 }

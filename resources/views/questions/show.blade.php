@@ -15,7 +15,7 @@
                     <a href="#" class="text-xs font-semibold hover:underline">
                         Edit
                     </a>
-                    <form action="#" onsubmit="return confirm('¿Estás seguro de eliminar esta pregunta?');">
+                    <form action="{{ route('question.destroy', $question) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta pregunta?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="rounded-md bg-red-600 hover:bg-red-500 px-2 py-1 text-xs font-semibold text-white cursor-pointer">
@@ -39,7 +39,7 @@
         @foreach ($question->answers as $answer)
         <li>
             <div class="flex items-start gap-2">
-                <livewire:heart :heartable="$answer" />
+                <livewire:heart :heartable="$answer" wire:key="answer-heart-{{$answer->id}}"/>
                 <div>
                     <p class="text-sm text-gray-300">
                         {{ $answer->content }}
@@ -48,7 +48,7 @@
                         {{ $answer->user->name }} | {{ $answer->created_at->diffForHumans() }}
                     </p>
 
-                    <livewire:comment :commentable="$answer" />
+                    <livewire:comment :commentable="$answer" wire:key="answer-comment-{{$answer->id}}"/>
 
                 </div>
             </div>

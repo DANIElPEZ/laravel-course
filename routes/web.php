@@ -7,6 +7,7 @@ use App\Http\Controllers\{AnswerController, PageController, QuestionController};
 // in this route, the controller use the clas and execute index method in controller, and the name represent the name of the route
 Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('questions/{question}', [QuestionController::class, 'show'])->name('question.show');
+Route::delete('question/{question}', [QuestionController::class, 'destroy'])->name('question.destroy');
 Route::post('questions/{question}/answers', [AnswerController::class, 'store'])->name('answers.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
