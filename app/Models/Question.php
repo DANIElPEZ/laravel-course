@@ -7,17 +7,33 @@ namespace App\Models;
 use App\Traits\HasHeart;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Question extends Model
 {
-    use HasFactory, HasHeart;
+    use HasFactory, HasHeart, Sluggable;
 
     protected $fillable = [
         'user_id',
         'category_id',
         'title',
+        'slug',
         'description',
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function category()
     {
@@ -42,15 +58,15 @@ class Question extends Model
     //this function is used to delete in cascade
     protected static function booted()
     {
-        static::deleting(function ($question){
+        static::deleting(function ($question) {
             $question->hearts()->delete();
-            $question->comments()->get()->each(function ($comment){
+            $question->comments()->get()->each(function ($comment) {
                 $comment->hearts()->delete();
                 $comment->delete();
             });
-            $question->answers()->get()->each(function ($answer){
+            $question->answers()->get()->each(function ($answer) {
                 $answer->hearts()->delete();
-                $answer->comments()->get()->each(function ($comment){
+                $answer->comments()->get()->each(function ($comment) {
                     $comment->hearts()->delete();
                     $comment->delete();
                 });

@@ -8,10 +8,10 @@
 <div class="mb-4">
     <label class="text-xs font-medium text-gray-700">Categoría</label>
     <select name="category_id" class="w-full p-2 border border-gray-700 rounded-md appearance-none">
-        <option value="">Seleccione una categoría</option>
+        <option value="" class="text-gray-700">Seleccione una categoría</option>
 
         @foreach ($categories as $category)
-        <option value="{{ $category->id }}"
+        <option class="text-gray-700" value="{{ $category->id }}"
          @if ($category->id == old('category_id', $question->category_id??'')) selected @endif>
          {{ $category->name }}</option>
         @endforeach
