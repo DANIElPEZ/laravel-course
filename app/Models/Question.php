@@ -10,8 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    /** @use HasFactory<\Database\Factories\QuestionFactory> */
     use HasFactory, HasHeart;
+
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'title',
+        'description',
+    ];
 
     public function category()
     {

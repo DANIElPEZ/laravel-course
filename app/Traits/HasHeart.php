@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Heart;
+use Illuminate\Support\Facades\Auth;
 
 trait HasHeart
 {
@@ -13,18 +14,21 @@ trait HasHeart
 
      public function isHearted()
      {
-          return $this->hearts()->where('user_id', 20)->exists();
+          if ($this->relationLoaded('hearts')) {
+               return $this->hearts->isNotEmpty();
+          }
+          return $this->hearts()->where('user_id', Auth::id())->exists();
      }
 
      public function heart()
      {
           $this->hearts()->create([
-               'user_id' => 20
+               'user_id' =>Auth::id()
           ]);
      }
 
      public function unheart()
      {
-          $this->hearts()->where('user_id', 20)->delete();
+          $this->hearts()->where('user_id',Auth::id())->delete();
      }
 }

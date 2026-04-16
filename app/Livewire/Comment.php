@@ -32,7 +32,7 @@ class Comment extends Component
         //insert in database
         $this->commentable->comments()->create([
             'content'=>$this->content,
-            'user_id'=>20
+            'user_id'=>auth()->id()
         ]);
         //reset values
         $this->reset('content', 'showForm');

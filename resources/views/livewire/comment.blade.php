@@ -11,10 +11,11 @@
                     {{ $comment->content }}
                 </span>
             </p>
-            <livewire:heart :heartable="$comment" wire:key="comment-heart-{{$comment->id}}"/>
+            <livewire:heart :heartable="$comment" wire:key="comment-heart-{{$comment->id}}" />
         </li>
         @endforeach
     </ul>
+    @auth
     @if(!$showForm)
     <p class="text-gray-500">
         <a href="#" wire:click="toggle" class="rounded-md text-xs hover:underline cursor-pointer">
@@ -34,4 +35,5 @@
         @error('content') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
     </form>
     @endif
+    @endauth
 </div>

@@ -1,3 +1,4 @@
+@auth
 <flux:dropdown position="bottom" align="start">
     <flux:sidebar.profile
         :name="auth()->user()->name"
@@ -18,7 +19,6 @@
             </div>
         </div>
         <flux:menu.separator />
-        <flux:menu.radio.group>
             <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
                 {{ __('Settings') }}
             </flux:menu.item>
@@ -34,6 +34,6 @@
                     {{ __('Log out') }}
                 </flux:menu.item>
             </form>
-        </flux:menu.radio.group>
     </flux:menu>
 </flux:dropdown>
+@endauth
